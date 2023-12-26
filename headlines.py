@@ -1,4 +1,4 @@
-from constants import WEATHER_URL, CURRENCY_URL, DEFAULTS, CURRENCIES, RSS_FEEDS
+from constants import WEATHER_URL, CURRENCY_URL, DEFAULTS, CURRENCIES, RSS_FEEDS, WEATHER_URL_TOKEN
 from flask import Flask, render_template, request, make_response
 import feedparser
 import urllib
@@ -26,6 +26,8 @@ def home():
                            articles=articles, 
                            weather=weather, 
                            rateData=rateData,
+                           publications=RSS_FEEDS.keys(),
+                           publication=publication
                         ))
     expires = datetime.datetime.now() + datetime.timedelta(days=365)
     response.set_cookie("publication", publication, expires=expires)
@@ -54,10 +56,10 @@ def getRate(frm, to):
 
 def getQuery(req, key="publication"):
     query = None
-    if req.method == "POST":
+    if req.method == "POST" and key in req.form:
         query = req.form[key]
 
-    if req.method == "GET":
+    if req.method == "GET" and key in req.args:
         query = req.args.get(key)
 
     if not query:
@@ -65,7 +67,7 @@ def getQuery(req, key="publication"):
 
     if not query:
         query = DEFAULTS[key]
-
+    print(key, query)
     return query.lower()
 
 def getPublicationQuery(req):
@@ -86,7 +88,7 @@ def getCurrencyToQuery(req):
 
 def getWeather(query):
     query = urllib.parse.quote(query)
-    url = WEATHER_URL.format(query)
+    url = WEATHER_URL.format(query, WEATHER_URL_TOKEN)
     data = urllib.request.urlopen(url).read()
     parsed = json.loads(data)
     weather = None
