@@ -1,4 +1,4 @@
-from hidden import WEATHER_URL, CURRENCY_URL
+from constants import WEATHER_URL, CURRENCY_URL, DEFAULTS, CURRENCIES, RSS_FEEDS
 from flask import Flask, render_template, request, make_response
 import feedparser
 import urllib
@@ -6,27 +6,6 @@ import json
 import datetime
 
 app = Flask(__name__)
-
-RSS_FEEDS = {
-    'bbc': 'http://feeds.bbci.co.uk/news/rss.xml',
-    'cnn': 'http://rss.cnn.com/rss/edition.rss',
-    'fox': 'http://feeds.foxnews.com/foxnews/latest',
-    'iol': 'http://www.iol.co.za/cmlink/1.640'
-}
-
-DEFAULTS = {
-    "publication": "bbc", 
-    "city": "Accra,GH",
-    'currency_from':'GBP',
-    'currency_to':'USD'
-}
-
-CURRENCIES = {
-    "USD",
-    "GBP",
-    "EUR",
-    "ZAR",
-}
 
 @app.route("/", methods=["GET", "POST"])
 def home():

@@ -3,38 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/output.css')}}">
     <title>headlines</title>
 </head>
-<body>
-    <h1>Headlines</h1>
+<body class="bg-slate-200">
+    <div class="w-full bg-slate-400 flex justify-center h-12 items-center p-4">
+        <h1 class="text-lg text-white font-bold">Headlines</h1>
+    </div>
 
-    <h2>Current weather</h2>
-    <form>
-        <input type="text" name="city" placeholder="search" />
-        <input type="submit" value="Submit" />
-    </form>
-    <p>City: <b>{{weather.city}}, {{weather.country}}</b></p>
-    <p>{{weather.description}} |{{weather.temperature}}&#8451;</p>
-    <hr>
+    <div class="w-3/4 mx-auto my-6 bg-slate-50 rounded-lg p-4 max-w-[500px]">
+        <h2 class="text-lg mt-2 mb-4 text-slate-600 text-center">Current weather</h2>
 
-    <h2>Currency</h2>
-    1 {{rateData.from}} = {{rateData.to}} {{rateData.rate}}
-    <form>
-        from: <select name="currency_from" id="from">
-        <option>select currency from</option>
-        {% for cur in rateData.currencies %}
-        <option {{"selected" if cur == rateData.from}} value="{{cur}}">{{cur}}</option>
-        {% endfor %}
-        </select>
-        to: <select name="currency_to" id="to">
-        <option>select currency to</option>
-        {% for cur in rateData.currencies %}
-        <option {{"selected" if cur == rateData.to}} value="{{cur}}">{{cur}}</option>
-        {% endfor %}
-        </select>
-        <input type="submit" value="Submit">
-    </form>
-    <hr>
+        <form>
+            <input class="outline-none border-b-2 border-slate-700 p-1 placeholder:text-center w-full" type="text" name="city" placeholder="search" />
+            <div class="my-2 w-full flex justify-end">
+                <input type="submit" value="Submit" class="rounded hover:bg-slate-800 cursor-pointer px-2 py-1 border border-slate-600 bg-slate-700 text-slate-100" />
+            </div>
+        </form>
+
+        <div class="flex justify-center w-full">
+            <div class="bg-white p-4 max-w-[90%] sm:max-w-[75%]">
+                <p class="text-center">City: <b>{{weather.city}}, {{weather.country}}</b></p>
+                <p class="text-center">{{weather.description}} | {{weather.temperature}}&#8451;</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-3/4 mx-auto my-6 bg-slate-50 rounded-lg p-4 max-w-[500px]">
+        <h2 class="text-lg mt-2 mb-4 text-slate-600 text-center">Currency</h2>
+
+        <div class="flex justify-center w-full">
+            <div class="bg-white p-4 max-w-[90%] sm:max-w-[75%]">
+                1 {{rateData.from}} = {{rateData.to}} {{rateData.rate}}
+            </div>
+        </div>
+
+        <form>
+            <div class="w-full inline-flex items-center my-2">
+                <div class="text-slate-600 mr-2">from:</div>
+                <select name="currency_from" id="from" class="w-full p-1 border-b-2 border-slate-700 selection:bg-slate-600 selection:text-slate-200">
+                    <option>select currency from</option>
+                    {% for cur in rateData.currencies %}
+                    <option {{"selected" if cur == rateData.from}} value="{{cur}}">{{cur}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            to: <select name="currency_to" id="to" class="w-full">
+            <option>select currency to</option>
+            {% for cur in rateData.currencies %}
+            <option {{"selected" if cur == rateData.to}} value="{{cur}}">{{cur}}</option>
+            {% endfor %}
+            </select>
+            <div class="my-2 w-full flex justify-end">
+                <input type="submit" value="Submit" class="rounded hover:bg-slate-800 cursor-pointer px-2 py-1 border border-slate-600 bg-slate-700 text-slate-100" />
+            </div>
+        </form>
+    </div>
 
     <form action="/" method="post">
         <input type="text" name="publication" placeholder="search" />
